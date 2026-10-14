@@ -28,6 +28,23 @@ npm test          # unit tests (game rules + store flows)
 npm run build     # static build in dist/ (deploy to any static host)
 ```
 
+## Deploy to Vercel
+
+The repo includes a `vercel.json` (Vite preset, `npm run build`, output `dist/`, long-term caching for hashed assets). The app uses hash-based routes (`/#/library`), so page refreshes work without rewrite rules.
+
+**Option A: dashboard (no CLI)**
+1. Go to <https://vercel.com/new> and import `chad3456/biblobumbo`.
+2. Settings are picked up from `vercel.json`, so just click **Deploy**.
+3. Every push to `main` deploys to production. Pushes to other branches get preview URLs.
+
+**Option B: CLI**
+```bash
+npm i -g vercel
+vercel login
+vercel          # preview deploy
+vercel --prod   # production deploy
+```
+
 ## Tech
 React 19 + TypeScript + Vite, Three.js via `@react-three/fiber`/`drei` (the minifigs are built from code, so there are no model files), and Zustand for state.
 
