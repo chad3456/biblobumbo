@@ -19,11 +19,24 @@ A gamified, LEGO-style reading app with a Gen Z twist. Every reader is a customi
 - **Levels & titles**: Brick Newbie → Page Turner → … → Library Legend.
 - **Daily quests**, **reading streaks** and **10 badges**.
 
+## Bonus: NaMo Bricks — The Election Run (`/game/`)
+
+A LEGO-style, Mario-like side-scroller parody served at `/game/` (source in `src/game/`, entry `game/index.html`).
+
+- **Hero:** a NaMo minifig caricature (white hair & beard, glasses, white kurta, saffron jacket).
+- **Votes:** ballot boxes to collect. **? blocks** are development projects (Metro, Vande Bharat, highways…), and some give a **Vikas Boost** power-up that absorbs one hit.
+- **Obstacles:** protest barricades you have to jump over, and gaps in the road.
+- **Opponents:** "RaGa" and "Kejri" caricatures patrol the trail. Jump on them to outplay them; touching them from the side costs a life.
+- **Goal:** reach the tricolour flag before election day to win seats (out of 543).
+- **Controls:** ← → / A D move · Space / ↑ jump (hold for higher) · Shift run · M mute. On-screen buttons appear on touch devices.
+
+All characters are cartoon caricatures drawn in code (no photos). It's a fan-made parody, not affiliated with or endorsed by any person or party.
+
 ## Running it
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173
+npm run dev       # http://localhost:5173  (game: /game/)
 npm test          # unit tests (game rules + store flows)
 npm run build     # static build in dist/ (deploy to any static host)
 ```
