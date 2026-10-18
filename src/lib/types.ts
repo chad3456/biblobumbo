@@ -1,85 +1,63 @@
-export type HairStyle = 'bowl' | 'spiky' | 'long' | 'bun' | 'cap' | 'beanie' | 'crown' | 'bald'
-export type FaceStyle = 'smile' | 'grin' | 'smirk' | 'shook' | 'wink' | 'sleepy'
-export type Accessory = 'none' | 'book' | 'glasses' | 'headphones' | 'cape' | 'coffee'
-export type TorsoPrint = 'plain' | 'stripe' | 'heart' | 'star' | 'book' | 'bolt'
+export type Gender = 'female' | 'male'
+export type Pattern = 'mirror' | 'bandhani' | 'leheriya' | 'plain'
+export type FemaleHair = 'braid' | 'bun' | 'open'
+export type MaleHead = 'pagdi' | 'safa' | 'topi' | 'none'
+export type Face = 'smile' | 'joy' | 'wink' | 'calm'
 
-export interface MinifigConfig {
+export interface FigurineConfig {
+  gender: Gender
   skin: string
-  hair: HairStyle
   hairColor: string
-  face: FaceStyle
-  torso: string
-  print: TorsoPrint
-  legs: string
-  accessory: Accessory
+  face: Face
+  /** chaniya (skirt) for women, kediyu (frilled jacket) for men */
+  main: string
+  /** border / embroidery colour */
+  accent: string
+  /** choli for women, chorno (trousers) for men */
+  second: string
+  /** odhni (dupatta) for women, pagdi/safa for men */
+  drape: string
+  pattern: Pattern
+  femaleHair: FemaleHair
+  maleHead: MaleHead
+  jewellery: boolean
+  dandiyaColor: string
 }
 
-export interface UserStats {
-  pagesRead: number
-  minutesRead: number
-  booksFinished: number
-  booksAdded: number
-  postsMade: number
-  reactionsGiven: number
-  commentsMade: number
-}
-
-export interface User {
+export interface Figurine {
   id: string
-  username: string
-  displayName: string
-  bio: string
-  passwordHash: string
-  salt: string
-  createdAt: number
-  avatar: MinifigConfig
-  xp: number
-  studs: number
-  streak: { count: number; lastDay: string | null }
-  badges: string[]
-  unlocked: string[]
-  stats: UserStats
-  questDay: string | null
-  questProgress: Record<string, number>
-  questsClaimed: string[]
-  isBot?: boolean
-}
-
-export type BookStatus = 'tbr' | 'reading' | 'finished'
-
-export interface Book {
-  id: string
-  ownerId: string
-  title: string
-  author: string
-  totalPages: number
-  currentPage: number
-  status: BookStatus
-  color: string
-  coverUrl?: string
-  rating?: number
-  addedAt: number
-  finishedAt?: number
-  /** id of a bundled public-domain text, or "upload" for a user-provided .txt */
-  textSource?: string
-}
-
-export interface Comment {
-  id: string
-  authorId: string
-  text: string
+  name: string
+  config: FigurineConfig
+  mine: boolean
   createdAt: number
 }
 
-export interface Post {
-  id: string
-  authorId: string
-  bookTitle: string
-  bookAuthor: string
-  text: string
-  vibe: string
-  rating: number
-  createdAt: number
-  reactions: Record<string, string[]>
-  comments: Comment[]
+export type StepId = 'be-taali' | 'tran-taali' | 'dodhiyu' | 'hinch' | 'popatiyu' | 'dandiya'
+
+export interface Pose {
+  armL: { x: number; z: number }
+  armR: { x: number; z: number }
+  legL: number
+  legR: number
+  /** vertical bounce */
+  bob: number
+  /** extra rotation of the whole body around Y */
+  turn: number
+  /** forward lean */
+  lean: number
+  /** true at the instant hands meet */
+  clap: boolean
+  /** dandiya sticks visible */
+  sticks: boolean
+  /** how far the skirt flares (0..1) */
+  flare: number
+}
+
+export type ActionId = 'namaste' | 'wave' | 'spin' | 'jai' | 'clap' | 'fudadi'
+
+export interface ActiveAction {
+  id: ActionId
+  until: number
+  partnerId?: string
+  text?: string
 }

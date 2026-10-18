@@ -1,5 +1,5 @@
 {
-  "name": "biblobumbo",
+  "name": "garba-night",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -20,7 +20,6 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.186.0",

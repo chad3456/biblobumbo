@@ -1,66 +1,43 @@
-# 🧱📚 Biblobumbo
+# 🪔 Garba Night
 
-A gamified, LEGO-style reading app with a Gen Z twist. Every reader is a customisable **3D minifig**.
+Build your own LEGO-style **3D garba figurine** in traditional Gujarati attire, then join the circle around **Ambe Maa / Durga** as a live orchestra plays.
 
-## What's inside
+## Features
 
-| Page | What you can do |
-| --- | --- |
-| **Brick City** (home) | Your 3D minifig on a baseplate next to a tower of finished books (one brick per book). Tap the fig to switch moves (wave, dance, read, celebrate, walk). XP bar, streak, studs, daily quests, badges. |
-| **Library** | Search Open Library (title/author, with covers), add books by hand, read the bundled public-domain classics in-app, or upload any `.txt` (e.g. from Project Gutenberg). Track your page, finish books, rate them out of 5 bricks. |
-| **Reader** | Paginated reader (← → keys, font size, night mode) with your minifig reading alongside. For physical books, **lock-in mode** runs a focus timer that pays XP. |
-| **Hangout** | Post book takes with a vibe tag and a brick rating, react (🔥 💀 😭 🧱 🫶), and reply. |
-| **Squad** | Leaderboard by XP, pages or books, with the top 3 minifigs on a 3D podium. |
-| **My Fig** | Customise skin, hair (8 styles), hair colour, face, torso colour & print, legs, and accessory (book, glasses, latte, headphones, cape). Spend **studs** in the shop to unlock premium drip; some items need a minimum level. |
+### 🧵 Figurine Studio
+- **Female:** chaniya choli. Flared chaniya with an embroidered hem, choli, odhni, and choti (braid with parandi), ambodo with gajra, or open hair. Optional bindi, maang tikka, jhumka, nath, haar and bangles.
+- **Male:** kediyu with a frilled flare, chorno trousers, kamarbandh, and a pagdi (with turra), safo or topi. Tilak and moustache.
+- **Fabric work:** 🪞 mirror work, 🔴 bandhani, 〰️ leheriya or plain, with your choice of border colour.
+- Colour pickers for every garment, plus skin, hair, face and dandiya sticks.
+- **Name** each figurine and keep up to 12. Preview them dancing (be taali, dodhiyu, hinch, dandiya, spin, namaste) before you join.
 
-### The game loop
-- **XP**: +2 per page, +1 per focused minute, +120 per finished book, plus XP for posting, replying and reacting.
-- **Studs** 🟡 (currency): earned from pages, finishing books, posts, quests and level-ups. Spend them on fig items.
-- **Levels & titles**: Brick Newbie → Page Turner → … → Library Legend.
-- **Daily quests**, **reading streaks** and **10 badges**.
+### 💃 Garba Ground
+- A rangoli dance floor with a **decorated mandap** in the centre: Maa's murti with eight arms (trishul, chakra, sword, lotus, shankh, gada, bow, abhaya mudra), mukut, prabhavali, her lion, marigold garlands and flickering diyas.
+- String lights, lanterns and a starry night sky.
+- **Orchestra stage:** dholi, tabla, singer, harmonium and shehnai. The musicians play along in time with the music.
+- **7 original songs**, synthesised live in the browser with WebAudio (no audio files):
+  - Ambe Maa no Garbo: be taali
+  - Tran Taali Thumko: tran taali
+  - Dodhiyu Dhamaka: dodhiyu
+  - Hinch ni Hilor: 6/8 hinch
+  - Popat no Pankh: popatiyu
+  - Dandiya Dhoom: dandiya raas
+  - Maa ni Aarti: everyone stops, faces Maa and joins hands
+- **6 garba steps:** Be Taali, Tran Taali, Dodhiyu, Hinch, Popatiyu and Dandiya Raas. Steps follow the song, or you can pick one. Hand claps and dandiya strikes land exactly on the music's claps. In dandiya raas, the dancers form two counter-rotating rings and switch partners every 8 beats.
+- **Interactions:** tap any dancer, then choose Namaste, Jai Mata Di, Wave, Clap, Spin or "Kem cho!" (a neighbour replies). You can also **pair up for fudadi**, where two figurines spin together, or greet each other. Neighbourhood dancers chat now and then.
+- **Camera:** orbit, top-down, or follow your figurine.
 
-## Bonus: NaMo Bricks — The Election Run (`/game/`)
-
-A LEGO-style, Mario-like side-scroller parody served at `/game/` (source in `src/game/`, entry `game/index.html`).
-
-- **Hero:** a NaMo minifig caricature (white hair & beard, glasses, white kurta, saffron jacket).
-- **Votes:** ballot boxes to collect. **? blocks** are development projects (Metro, Vande Bharat, highways…), and some give a **Vikas Boost** power-up that absorbs one hit.
-- **Obstacles:** protest barricades you have to jump over, and gaps in the road.
-- **Opponents:** "RaGa" and "Kejri" caricatures patrol the trail. Jump on them to outplay them; touching them from the side costs a life.
-- **Goal:** reach the tricolour flag before election day to win seats (out of 543).
-- **Controls:** ← → / A D move · Space / ↑ jump (hold for higher) · Shift run · M mute. On-screen buttons appear on touch devices.
-
-All characters are cartoon caricatures drawn in code (no photos). It's a fan-made parody, not affiliated with or endorsed by any person or party.
-
-## Running it
+## Run it
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173  (game: /game/)
-npm test          # unit tests (game rules + store flows)
-npm run build     # static build in dist/ (deploy to any static host)
+npm run dev     # http://localhost:5173
+npm test        # step/music sync, formations, store
+npm run build   # static site in dist/
 ```
 
-## Deploy to Vercel
-
-The repo includes a `vercel.json` (Vite preset, `npm run build`, output `dist/`, long-term caching for hashed assets). The app uses hash-based routes (`/#/library`), so page refreshes work without rewrite rules.
-
-**Option A: dashboard (no CLI)**
-1. Go to <https://vercel.com/new> and import `chad3456/biblobumbo`.
-2. Settings are picked up from `vercel.json`, so just click **Deploy**.
-3. Every push to `main` deploys to production. Pushes to other branches get preview URLs.
-
-**Option B: CLI**
-```bash
-npm i -g vercel
-vercel login
-vercel          # preview deploy
-vercel --prod   # production deploy
-```
+## Deploy (Vercel)
+`vercel.json` is included: import the repo at <https://vercel.com/new> and click **Deploy**, or run `vercel --prod`.
 
 ## Tech
-React 19 + TypeScript + Vite, Three.js via `@react-three/fiber`/`drei` (the minifigs are built from code, so there are no model files), and Zustand for state.
-
-## Good to know
-- **Accounts are stored in your browser** (localStorage). Passwords are salted and SHA-256 hashed, but there's no server: accounts, books and posts stay on that device/browser. A few NPC readers are seeded so the Hangout and Squad aren't empty. To add real cross-device sharing, swap `src/store.ts` persistence and `src/lib/auth.ts` for a backend such as Supabase or Firebase.
-- The bundled texts (*The Raven*, *Pride and Prejudice* ch. 1, *Alice in Wonderland* ch. 1 excerpt) are public domain.
+React 19, TypeScript, Vite, Three.js via `@react-three/fiber` and `drei`, Zustand, and WebAudio. Everything is built from code: there are no 3D models, images or audio files. Figurines are saved in your browser (localStorage).

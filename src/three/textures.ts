@@ -1,228 +1,251 @@
 import * as THREE from 'three'
-import type { FaceStyle, TorsoPrint } from '../lib/types'
+import type { Face, Gender, Pattern } from '../lib/types'
 
 const cache = new Map<string, THREE.CanvasTexture>()
 
-function cached(key: string, draw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void, w: number, h: number) {
+function make(key: string, w: number, h: number, draw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void, repeatX = 1) {
   const hit = cache.get(key)
   if (hit) return hit
-  const canvas = document.createElement('canvas')
-  canvas.width = w
-  canvas.height = h
-  const ctx = canvas.getContext('2d')!
+  const c = document.createElement('canvas')
+  c.width = w
+  c.height = h
+  const ctx = c.getContext('2d')!
   draw(ctx, w, h)
-  const tex = new THREE.CanvasTexture(canvas)
+  const tex = new THREE.CanvasTexture(c)
   tex.colorSpace = THREE.SRGBColorSpace
+  tex.wrapS = THREE.RepeatWrapping
+  tex.repeat.set(repeatX, 1)
   tex.anisotropy = 4
   cache.set(key, tex)
   return tex
 }
 
-/** Wraps around the head cylinder; the face is drawn at u = 0.5 (front). */
-export function faceTexture(face: FaceStyle, skin: string): THREE.CanvasTexture {
-  return cached(`face:${face}:${skin}`, (ctx, w, h) => {
+/** Face wraps the head cylinder; front of the face is at u = 0.5. */
+export function faceTexture(face: Face, skin: string, gender: Gender, jewellery: boolean): THREE.CanvasTexture {
+  return make(`face:${face}:${skin}:${gender}:${jewellery}`, 1024, 256, (ctx, w, h) => {
     ctx.fillStyle = skin
     ctx.fillRect(0, 0, w, h)
     const cx = w / 2
-    const cy = h / 2
+    const ey = h / 2 - 20
+    const ex = 44
     ctx.fillStyle = '#111'
     ctx.strokeStyle = '#111'
     ctx.lineCap = 'round'
     ctx.lineWidth = 9
-
-    const eye = (x: number, y: number, r = 13) => {
+    const eye = (x: number) => {
       ctx.beginPath()
-      ctx.ellipse(x, y, r * 0.8, r, 0, 0, Math.PI * 2)
+      ctx.ellipse(x, ey, 11, 14, 0, 0, Math.PI * 2)
       ctx.fill()
       ctx.fillStyle = '#fff'
       ctx.beginPath()
-      ctx.arc(x - 3, y - 4, r * 0.3, 0, Math.PI * 2)
+      ctx.arc(x - 3, ey - 5, 4, 0, Math.PI * 2)
       ctx.fill()
       ctx.fillStyle = '#111'
     }
-    const closedEye = (x: number, y: number) => {
+    const happy = (x: number) => {
       ctx.beginPath()
-      ctx.arc(x, y + 4, 12, Math.PI * 1.1, Math.PI * 1.9)
+      ctx.arc(x, ey + 6, 13, Math.PI * 1.1, Math.PI * 1.9)
       ctx.stroke()
     }
-    const ex = 42
-    const ey = cy - 22
+    if (face === 'joy') { happy(cx - ex); happy(cx + ex) }
+    else if (face === 'wink') { eye(cx - ex); happy(cx + ex) }
+    else if (face === 'calm') {
+      ctx.beginPath()
+      ctx.arc(cx - ex, ey - 2, 12, Math.PI * 0.15, Math.PI * 0.85)
+      ctx.arc(cx + ex, ey - 2, 12, Math.PI * 0.15, Math.PI * 0.85)
+      ctx.stroke()
+    } else { eye(cx - ex); eye(cx + ex) }
 
-    switch (face) {
-      case 'wink':
-        eye(cx - ex, ey)
-        closedEye(cx + ex, ey)
-        break
-      case 'sleepy':
+    // kajal / lashes for female figurines
+    if (gender === 'female' && face !== 'calm') {
+      ctx.lineWidth = 4
+      for (const s of [-1, 1]) {
         ctx.beginPath()
-        ctx.moveTo(cx - ex - 14, ey + 2)
-        ctx.lineTo(cx - ex + 14, ey + 2)
-        ctx.moveTo(cx + ex - 14, ey + 2)
-        ctx.lineTo(cx + ex + 14, ey + 2)
+        ctx.moveTo(cx + s * ex + s * 12, ey - 8)
+        ctx.lineTo(cx + s * ex + s * 20, ey - 14)
         ctx.stroke()
-        break
-      case 'shook':
-        eye(cx - ex, ey, 17)
-        eye(cx + ex, ey, 17)
-        break
-      default:
-        eye(cx - ex, ey)
-        eye(cx + ex, ey)
+      }
     }
 
     // brows
     ctx.lineWidth = 6
     ctx.beginPath()
-    if (face === 'smirk') {
-      ctx.moveTo(cx - ex - 14, ey - 30); ctx.lineTo(cx - ex + 12, ey - 26)
-      ctx.moveTo(cx + ex - 12, ey - 30); ctx.lineTo(cx + ex + 14, ey - 38)
-    } else if (face === 'shook') {
-      ctx.moveTo(cx - ex - 14, ey - 38); ctx.quadraticCurveTo(cx - ex, ey - 46, cx - ex + 14, ey - 38)
-      ctx.moveTo(cx + ex - 14, ey - 38); ctx.quadraticCurveTo(cx + ex, ey - 46, cx + ex + 14, ey - 38)
-    } else {
-      ctx.moveTo(cx - ex - 14, ey - 30); ctx.lineTo(cx - ex + 12, ey - 32)
-      ctx.moveTo(cx + ex - 12, ey - 32); ctx.lineTo(cx + ex + 14, ey - 30)
-    }
+    ctx.moveTo(cx - ex - 16, ey - 30)
+    ctx.quadraticCurveTo(cx - ex, ey - 38, cx - ex + 14, ey - 32)
+    ctx.moveTo(cx + ex - 14, ey - 32)
+    ctx.quadraticCurveTo(cx + ex, ey - 38, cx + ex + 16, ey - 30)
     ctx.stroke()
 
     // mouth
-    ctx.lineWidth = 9
-    const my = cy + 30
-    ctx.beginPath()
-    switch (face) {
-      case 'grin':
-        ctx.fillStyle = '#111'
-        ctx.moveTo(cx - 48, my - 8)
-        ctx.quadraticCurveTo(cx, my + 50, cx + 48, my - 8)
-        ctx.closePath()
-        ctx.fill()
-        ctx.fillStyle = '#fff'
-        ctx.fillRect(cx - 34, my - 5, 68, 10)
-        break
-      case 'smirk':
-        ctx.moveTo(cx - 30, my + 6)
-        ctx.quadraticCurveTo(cx + 10, my + 18, cx + 38, my - 8)
+    const my = h / 2 + 34
+    ctx.lineWidth = 8
+    if (face === 'joy' || face === 'wink') {
+      ctx.fillStyle = '#111'
+      ctx.beginPath()
+      ctx.moveTo(cx - 40, my - 10)
+      ctx.quadraticCurveTo(cx, my + 42, cx + 40, my - 10)
+      ctx.closePath()
+      ctx.fill()
+      ctx.fillStyle = '#e57373'
+      ctx.beginPath()
+      ctx.ellipse(cx, my + 12, 16, 8, 0, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.fillStyle = '#fff'
+      ctx.fillRect(cx - 28, my - 8, 56, 8)
+    } else {
+      ctx.beginPath()
+      ctx.arc(cx, my - 22, 34, Math.PI * 0.22, Math.PI * 0.78)
+      ctx.stroke()
+    }
+
+    if (gender === 'female') {
+      // bindi
+      ctx.fillStyle = '#d50000'
+      ctx.beginPath()
+      ctx.arc(cx, ey - 48, 8, 0, Math.PI * 2)
+      ctx.fill()
+      // lip colour
+      if (face !== 'joy' && face !== 'wink') {
+        ctx.strokeStyle = '#c2185b'
+        ctx.lineWidth = 6
+        ctx.beginPath()
+        ctx.arc(cx, my - 22, 34, Math.PI * 0.3, Math.PI * 0.7)
         ctx.stroke()
-        break
-      case 'shook':
-        ctx.ellipse(cx, my + 8, 16, 22, 0, 0, Math.PI * 2)
-        ctx.fill()
-        break
-      case 'sleepy':
-        ctx.moveTo(cx - 20, my + 8)
-        ctx.lineTo(cx + 20, my + 8)
+      }
+      if (jewellery) {
+        // nath (nose ring)
+        ctx.strokeStyle = '#ffc400'
+        ctx.lineWidth = 4
+        ctx.beginPath()
+        ctx.arc(cx + 14, my - 26, 12, -0.5, Math.PI * 1.2)
         ctx.stroke()
-        ctx.font = 'bold 34px sans-serif'
-        ctx.fillText('z', cx + 70, ey - 20)
-        ctx.font = 'bold 24px sans-serif'
-        ctx.fillText('z', cx + 96, ey - 44)
-        break
-      default:
-        ctx.arc(cx, my - 20, 40, Math.PI * 0.2, Math.PI * 0.8)
-        ctx.stroke()
+      }
+    } else {
+      // tilak + moustache
+      ctx.fillStyle = '#d84315'
+      ctx.fillRect(cx - 4, ey - 66, 8, 30)
+      ctx.fillStyle = '#ffb300'
+      ctx.beginPath()
+      ctx.arc(cx, ey - 38, 5, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.fillStyle = '#1b1b1b'
+      ctx.beginPath()
+      ctx.moveTo(cx, my - 18)
+      ctx.quadraticCurveTo(cx - 30, my - 30, cx - 50, my - 10)
+      ctx.quadraticCurveTo(cx - 30, my - 20, cx, my - 10)
+      ctx.quadraticCurveTo(cx + 30, my - 20, cx + 50, my - 10)
+      ctx.quadraticCurveTo(cx + 30, my - 30, cx, my - 18)
+      ctx.fill()
     }
 
     // blush
-    ctx.fillStyle = 'rgba(255,95,162,0.35)'
+    ctx.fillStyle = 'rgba(255,82,82,0.25)'
     ctx.beginPath()
-    ctx.ellipse(cx - 70, cy + 14, 16, 9, 0, 0, Math.PI * 2)
-    ctx.ellipse(cx + 70, cy + 14, 16, 9, 0, 0, Math.PI * 2)
+    ctx.ellipse(cx - 74, h / 2 + 14, 18, 10, 0, 0, Math.PI * 2)
+    ctx.ellipse(cx + 74, h / 2 + 14, 18, 10, 0, 0, Math.PI * 2)
     ctx.fill()
-  }, 1024, 256)
+  })
 }
 
-function star(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number) {
+function mirror(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, accent: string) {
+  ctx.fillStyle = accent
   ctx.beginPath()
-  for (let i = 0; i < 10; i++) {
-    const rad = i % 2 ? r * 0.45 : r
-    const a = (Math.PI / 5) * i - Math.PI / 2
-    ctx.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad)
-  }
-  ctx.closePath()
+  ctx.arc(x, y, r + 4, 0, Math.PI * 2)
+  ctx.fill()
+  const g = ctx.createRadialGradient(x - r / 3, y - r / 3, 1, x, y, r)
+  g.addColorStop(0, '#ffffff')
+  g.addColorStop(0.5, '#cfd8dc')
+  g.addColorStop(1, '#78909c')
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.arc(x, y, r, 0, Math.PI * 2)
   ctx.fill()
 }
 
-/** Transparent decal laid over the front of the torso. */
-export function printTexture(print: TorsoPrint, torso: string): THREE.CanvasTexture {
-  return cached(`print:${print}:${torso}`, (ctx, w, h) => {
-    ctx.clearRect(0, 0, w, h)
-    const light = isLight(torso)
-    const ink = light ? '#1b1b1b' : '#ffffff'
-    const cx = w / 2
-    const cy = h / 2 + 10
-    ctx.fillStyle = ink
-    ctx.strokeStyle = ink
-    ctx.lineWidth = 10
-    switch (print) {
-      case 'stripe':
-        ctx.fillStyle = light ? '#e3000b' : '#ffd500'
-        ctx.fillRect(0, cy - 30, w, 26)
-        ctx.fillStyle = ink
-        ctx.fillRect(0, cy + 14, w, 14)
-        break
-      case 'heart':
-        ctx.fillStyle = '#ff2d55'
+/**
+ * Fabric for the chaniya / kediyu / odhni: body pattern + embroidered border at
+ * the bottom edge (v = 0 is the hem on cylinders).
+ */
+export function fabricTexture(base: string, accent: string, pattern: Pattern, border = true): THREE.CanvasTexture {
+  return make(`fabric:${base}:${accent}:${pattern}:${border}`, 512, 256, (ctx, w, h) => {
+    ctx.fillStyle = base
+    ctx.fillRect(0, 0, w, h)
+    const bodyH = border ? h * 0.72 : h
+    if (pattern === 'leheriya') {
+      ctx.strokeStyle = accent
+      ctx.globalAlpha = 0.55
+      ctx.lineWidth = 7
+      for (let i = -h; i < w + h; i += 26) {
         ctx.beginPath()
-        ctx.moveTo(cx, cy + 50)
-        ctx.bezierCurveTo(cx - 90, cy - 10, cx - 40, cy - 80, cx, cy - 30)
-        ctx.bezierCurveTo(cx + 40, cy - 80, cx + 90, cy - 10, cx, cy + 50)
-        ctx.fill()
-        break
-      case 'star':
-        ctx.fillStyle = '#ffd500'
-        star(ctx, cx, cy, 64)
-        ctx.strokeStyle = '#1b1b1b'
-        ctx.lineWidth = 4
+        ctx.moveTo(i, 0)
+        ctx.lineTo(i + bodyH, bodyH)
         ctx.stroke()
-        break
-      case 'bolt':
-        ctx.fillStyle = '#ffd500'
+      }
+      ctx.globalAlpha = 1
+    } else if (pattern === 'bandhani') {
+      ctx.fillStyle = '#fff8e1'
+      for (let y = 10; y < bodyH - 6; y += 18) {
+        for (let x = (y / 18) % 2 ? 10 : 19; x < w; x += 18) {
+          ctx.beginPath()
+          ctx.arc(x, y, 3, 0, Math.PI * 2)
+          ctx.fill()
+        }
+      }
+      ctx.fillStyle = accent
+      for (let y = 28; y < bodyH - 20; y += 72) {
+        for (let x = 36; x < w; x += 72) {
+          for (let k = 0; k < 6; k++) {
+            const a = (k / 6) * Math.PI * 2
+            ctx.beginPath()
+            ctx.arc(x + Math.cos(a) * 10, y + Math.sin(a) * 10, 3.5, 0, Math.PI * 2)
+            ctx.fill()
+          }
+        }
+      }
+    } else if (pattern === 'mirror') {
+      for (let y = 26; y < bodyH - 10; y += 52) {
+        for (let x = (y / 52) % 2 < 1 ? 32 : 6; x < w; x += 52) mirror(ctx, x, y, 7, accent)
+      }
+      ctx.strokeStyle = accent
+      ctx.lineWidth = 3
+      ctx.setLineDash([6, 6])
+      for (let y = 52; y < bodyH; y += 52) {
         ctx.beginPath()
-        ctx.moveTo(cx + 20, cy - 80)
-        ctx.lineTo(cx - 40, cy + 8)
-        ctx.lineTo(cx, cy + 8)
-        ctx.lineTo(cx - 20, cy + 80)
-        ctx.lineTo(cx + 44, cy - 12)
-        ctx.lineTo(cx + 4, cy - 12)
-        ctx.closePath()
-        ctx.fill()
-        break
-      case 'book':
-        ctx.fillStyle = '#fff'
-        ctx.strokeStyle = '#1b1b1b'
-        ctx.lineWidth = 5
-        ctx.beginPath()
-        ctx.moveTo(cx, cy - 34)
-        ctx.quadraticCurveTo(cx - 40, cy - 52, cx - 80, cy - 40)
-        ctx.lineTo(cx - 80, cy + 40)
-        ctx.quadraticCurveTo(cx - 40, cy + 28, cx, cy + 46)
-        ctx.quadraticCurveTo(cx + 40, cy + 28, cx + 80, cy + 40)
-        ctx.lineTo(cx + 80, cy - 40)
-        ctx.quadraticCurveTo(cx + 40, cy - 52, cx, cy - 34)
-        ctx.closePath()
-        ctx.fill()
+        ctx.moveTo(0, y)
+        ctx.lineTo(w, y)
         ctx.stroke()
-        ctx.beginPath()
-        ctx.moveTo(cx, cy - 34)
-        ctx.lineTo(cx, cy + 46)
-        ctx.stroke()
-        break
-      default:
-        // plain: tiny collar "V"
-        ctx.lineWidth = 6
-        ctx.beginPath()
-        ctx.moveTo(cx - 30, 20)
-        ctx.lineTo(cx, 56)
-        ctx.lineTo(cx + 30, 20)
-        ctx.stroke()
+      }
+      ctx.setLineDash([])
     }
-  }, 256, 256)
+    if (border) {
+      // embroidered hem: accent band + zig-zag + mirrors
+      ctx.fillStyle = accent
+      ctx.fillRect(0, bodyH, w, h - bodyH)
+      ctx.fillStyle = base
+      ctx.beginPath()
+      for (let x = 0; x <= w; x += 32) {
+        ctx.lineTo(x, bodyH + 10)
+        ctx.lineTo(x + 16, bodyH + 30)
+      }
+      ctx.lineTo(w, bodyH + 10)
+      ctx.lineTo(w, bodyH)
+      ctx.lineTo(0, bodyH)
+      ctx.fill()
+      for (let x = 16; x < w; x += 32) mirror(ctx, x, h - 20, 7, '#212121')
+      ctx.fillStyle = '#212121'
+      ctx.fillRect(0, h - 6, w, 6)
+    }
+  }, 3)
 }
 
-export function isLight(hex: string): boolean {
-  const n = parseInt(hex.slice(1), 16)
-  const r = (n >> 16) & 255
-  const g = (n >> 8) & 255
-  const b = n & 255
-  return 0.299 * r + 0.587 * g + 0.114 * b > 160
+/** Striped wooden dandiya stick. */
+export function stickTexture(color: string): THREE.CanvasTexture {
+  return make(`stick:${color}`, 32, 256, (ctx, w, h) => {
+    ctx.fillStyle = color
+    ctx.fillRect(0, 0, w, h)
+    ctx.fillStyle = '#ffd54f'
+    for (let y = 8; y < h; y += 40) ctx.fillRect(0, y, w, 10)
+    ctx.fillStyle = '#212121'
+    for (let y = 22; y < h; y += 40) ctx.fillRect(0, y, w, 4)
+  })
 }
