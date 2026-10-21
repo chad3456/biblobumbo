@@ -156,7 +156,7 @@ export default function Garba() {
       <div className="hud bottom">
         <div className="roster">
           {mine.length === 0 && (
-            <Link to="/" className="btn primary small">➕ Create your figurine to join</Link>
+            <Link to="/studio" className="btn primary small">➕ Create your figurine to join</Link>
           )}
           {dancers.map((d) => (
             <button key={d.id} className={`dancer ${d.id === selectedId ? 'on' : ''} ${d.mine ? 'mine' : ''}`} onClick={() => select(d.id === selectedId ? null : d.id)}>
@@ -178,7 +178,7 @@ export default function Garba() {
                 <b>{selected.mine && '⭐ '}{selected.name}</b>
                 <small>{selected.config.gender === 'female' ? 'chaniya choli' : 'kediyu'} · tap actions to interact</small>
               </div>
-              {selected.mine && <Link className="btn small ghost" to={`/?edit=${selected.id}`}>✏️ Edit</Link>}
+              {selected.mine && <Link className="btn small ghost" to={`/studio?edit=${selected.id}`}>✏️ Edit</Link>}
               <button className="icon" onClick={() => select(null)} aria-label="close">✕</button>
             </div>
             <div className="row wrap">

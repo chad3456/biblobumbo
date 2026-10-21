@@ -1,8 +1,21 @@
-# 🪔 Garba Night
+# 🪔 Utsav Bricks
 
-Build your own LEGO-style **3D garba figurine** in traditional Gujarati attire, then join the circle around **Ambe Maa / Durga** as a live orchestra plays.
+Celebrate India's festivals in a LEGO-style 3D world. The home page has a card for each experience:
 
-## Features
+- **🪔 Diwali in Ayodhya** (`/#/diwali`): light diyas with wishes and promises on the Saryu ghats.
+- **💃 Garba Night** (`/#/studio`, `/#/garba`): build a garba figurine and dance around Maa Ambe.
+
+## 🪔 Diwali in Ayodhya
+- **Deepotsav on the Saryu.** A LEGO-brick ghat descends to the river, lined with about 1,800 diyas.
+- **Ram Mandir–style temple.** Nagara shikharas with saffron dhwajas, a pillared mandapa and a glowing sanctum, outlined in lights.
+- **Around the ghat:** lit havelis, chhatris, a rangoli, devotees doing the Saryu aarti (your garba figurines appear here if you've made any), floating diyas drifting downstream, sky lanterns and fireworks on a new-moon night.
+- **Light a diya.** Write a 🌟 wish, 🤝 promise, 💌 message, 🌸 gratitude or 🙏 prayer, and pick a rim colour. Your diya lights up on the steps with a temple-bell chime and fireworks.
+- **Deepotsav meter.** Every diya you light kindles 25 more along the riverfront, until the whole ghat glows.
+- **Wall of light.** Read everyone's diyas, filter by type, react with 🙏 ❤️ 🪔 ✨, and tap any diya to fly the camera to it.
+- **Share.** Each diya has a share link (native share sheet or copy). The whole message is inside the link, so when a friend opens it the diya lights up in their Ayodhya with a "lit a diya for you" card and a button to light one back. No server is needed. Links are validated and sanitised on arrival.
+
+
+## 💃 Garba Night
 
 ### 🧵 Figurine Studio
 - **Female:** chaniya choli. Flared chaniya with an embroidered hem, choli, odhni, and choti (braid with parandi), ambodo with gajra, or open hair. Optional bindi, maang tikka, jhumka, nath, haar and bangles.
@@ -32,7 +45,7 @@ Build your own LEGO-style **3D garba figurine** in traditional Gujarati attire, 
 ```bash
 npm install
 npm run dev     # http://localhost:5173
-npm test        # step/music sync, formations, store
+npm test        # step/music sync, formations, diya links, stores
 npm run build   # static site in dist/
 ```
 
@@ -40,4 +53,4 @@ npm run build   # static site in dist/
 `vercel.json` is included: import the repo at <https://vercel.com/new> and click **Deploy**, or run `vercel --prod`.
 
 ## Tech
-React 19, TypeScript, Vite, Three.js via `@react-three/fiber` and `drei`, Zustand, and WebAudio. Everything is built from code: there are no 3D models, images or audio files. Figurines are saved in your browser (localStorage).
+React 19, TypeScript, Vite, Three.js via `@react-three/fiber` and `drei`, Zustand, and WebAudio. Everything is built from code: there are no 3D models, images or audio files. Figurines and diyas are saved in your browser (localStorage); diyas travel between people through share links.
