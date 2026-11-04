@@ -6,6 +6,7 @@ const Studio = lazy(() => import('./pages/Studio'))
 const Garba = lazy(() => import('./pages/Garba'))
 const Diwali = lazy(() => import('./pages/Diwali'))
 const Brawl = lazy(() => import('./pages/Brawl'))
+const Shilpa = lazy(() => import('./pages/Shilpa'))
 
 function Loading() {
   return (
@@ -16,7 +17,7 @@ function Loading() {
   )
 }
 
-const FULLSCREEN = new Set(['/garba', '/diwali', '/brawl'])
+const FULLSCREEN = new Set(['/garba', '/diwali', '/brawl', '/shilpa'])
 
 export default function App() {
   const { pathname } = useLocation()
@@ -33,6 +34,7 @@ export default function App() {
           <NavLink to="/garba">💃<span className="nav-long"> Garba</span></NavLink>
           <NavLink to="/diwali">🪔<span className="nav-long"> Diwali</span></NavLink>
           <NavLink to="/brawl">👊<span className="nav-long"> Brawl</span></NavLink>
+          <NavLink to="/shilpa">🛕<span className="nav-long"> Shilpa</span></NavLink>
         </nav>
       </header>
       <main>
@@ -43,6 +45,7 @@ export default function App() {
             <Route path="/garba" element={<Garba />} />
             <Route path="/diwali" element={<Diwali />} />
             <Route path="/brawl" element={<Brawl />} />
+            <Route path="/shilpa" element={<Shilpa />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

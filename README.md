@@ -5,6 +5,21 @@ Celebrate India's festivals in a LEGO-style 3D world. The home page has a card f
 - **🪔 Diwali in Ayodhya** (`/#/diwali`): light diyas with wishes and promises on the Saryu ghats.
 - **💃 Garba Night** (`/#/studio`, `/#/garba`): build a garba figurine and dance around Maa Ambe.
 - **👊 Kantin Clash** (`/#/brawl`): a pixel-art isometric school brawler set in the canteen.
+- **🛕 Shilpa: The Living Frieze** (`/#/shilpa`): play as ancient Hindu temple wall art.
+
+## 🛕 Shilpa: The Living Frieze
+A first-person walk through a sandstone mandapa where a **carved dancer comes alive wherever light touches the wall**.
+- **Two modes:**
+  - **Explore** (first person): carry diyas, set them in wall niches, refill at the brass deepa-stambha.
+  - **In the frieze** (press E near the dancer): become the carving and run along the wall as a side-scroller. The camera swings round corners and pilasters with you.
+- **Light is the rule.** She can only move where sunlight from the roof openings, a niche diya or your hand lamp reaches. In darkness she turns back to stone. Processions only march when lit, too.
+- **Bands as lanes,** following the Hoysala frieze order at Halebidu: Gaja (elephants), Ashva (horses with riders), Katha (Ramayana scenes: dancer, drummer, Rama with his bow, Hanuman, the golden deer), with scrolls and hamsa (swan) rows between. Climb between bands, jump broken stone, dodge marching elephants and galloping horses.
+- **Painted wall:** the right wall is a Kerala-style panchavarna mural (red, yellow, green, black, white), and the dancer changes from carved stone into a painted figure when she reaches it.
+- **Goal:** gather 5 lotuses, then dance on the lintel above the garbhagriha door (only the story band crosses it). The sanctum doors, guarded by dvarapalas, open in lamplight and falling petals.
+- **Built in code:** all art is procedural canvas drawing. Each frieze has a height map used as a bump map and baked into raking-light shading, so the relief catches lamplight.
+- An in-game **"Art notes"** panel summarises the research for the developer.
+
+**References used:** Hoysaleswara temple frieze order ([Wikipedia](https://en.wikipedia.org/wiki/Hoysaleswara_Temple), [Jio Institute exhibit](https://exhibits.jioinstitute.edu.in/spotlight/hoysaleshwara-temple-of-halebeedu/feature/intricately-carved-walls)); Hazara Rama temple processions and Ramayana panels ([Incredible India](https://incredibleindia.gov.in/en/karnataka/hampi/hazara-rama-temple), [MAP Academy](https://mapacademy.io/?p=3058)); Kerala mural panchavarna palette ([Live History India](https://livehistoryindia.com/story/living-history/the-vibrant-murals-of-kerala), [Kerala Mural Painting](https://keralamuralpainting.com/traditional-kerala-mural-painting-colors/)).
 
 ## 👊 Kantin Clash
 - **Look:** an isometric canteen (food stalls, a kiosk with a rolling shutter, long tables and benches) rendered at low resolution and scaled up with hard pixels, in warm afternoon light.
@@ -63,7 +78,7 @@ Celebrate India's festivals in a LEGO-style 3D world. The home page has a card f
 ```bash
 npm install
 npm run dev     # http://localhost:5173
-npm test        # brawl engine, step/music sync, formations, diya links, stores
+npm test        # frieze path & light rules, brawl engine, step/music sync, formations, diya links, stores
 npm run build   # static site in dist/
 ```
 

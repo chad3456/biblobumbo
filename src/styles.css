@@ -486,3 +486,46 @@ main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 @media (pointer: coarse) {
   .kc-corner { bottom: auto; top: 50%; }
 }
+
+/* ---------- home: shilpa card art ---------- */
+.shilpa-art { background: linear-gradient(90deg, #2a1a10, #6b4a2c 45%, #2a1a10); }
+.sh-band { position: absolute; left: 0; right: 0; height: 22%; background-size: 64px 100%; border-top: 3px solid #e2c194; border-bottom: 3px solid #5a3a22; }
+.sh-band.b0 { bottom: 4%; background-image: radial-gradient(ellipse 22px 14px at 30px 60%, #d9bb8f 98%, transparent 100%); background-color: #a8845a; }
+.sh-band.b1 { bottom: 34%; background-image: radial-gradient(ellipse 18px 9px at 30px 55%, #d9bb8f 98%, transparent 100%); background-color: #9a7850; }
+.sh-band.b2 { bottom: 64%; background-image: linear-gradient(90deg, #d9bb8f 4px, transparent 4px), radial-gradient(circle 7px at 34px 35%, #d9bb8f 98%, transparent 100%); background-color: #8e6c46; }
+.sh-beam { position: absolute; top: -10%; left: 38%; width: 34%; height: 130%; background: linear-gradient(rgba(255, 220, 150, 0.55), rgba(255, 200, 120, 0)); transform: skewX(-12deg); mix-blend-mode: screen; }
+.sh-dancer { position: absolute; left: 52%; bottom: 36%; font-size: 2rem; filter: sepia(1) saturate(2) hue-rotate(-15deg); animation: shWalk 3s ease-in-out infinite alternate; }
+@keyframes shWalk { from { transform: translateX(-40px); } to { transform: translateX(40px) scaleX(-1); } }
+
+/* ---------- Shilpa ---------- */
+.sh { position: relative; flex: 1; min-height: 0; font-family: 'Space Grotesk', sans-serif; color: #f3e6c8; }
+.sh-intro { display: grid; place-items: center; padding: 1.2rem; background: radial-gradient(circle at 50% 30%, #5a3a22, #120a06 70%); overflow: auto; }
+.sh-card { background: rgba(26, 16, 10, 0.92); border: 2px solid #c9a066; border-radius: 6px; box-shadow: 0 0 0 6px rgba(201, 160, 102, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6); padding: 1.6rem 1.8rem; max-width: 640px; display: grid; gap: 0.7rem; text-align: center; }
+.sh-card h1 { font-family: 'Baloo 2', serif; font-size: clamp(2.6rem, 8vw, 4rem); margin: 0; line-height: 1; color: #f0c24b; text-shadow: 0 2px 0 #5a3a22, 0 0 24px rgba(240, 194, 75, 0.4); letter-spacing: 0.04em; }
+.sh-card h2 { margin: 0; font-family: 'Baloo 2', serif; color: #e2c194; font-weight: 500; }
+.sh-card p { margin: 0; line-height: 1.55; }
+.sh-kicker { text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.72rem; color: #c9a066; }
+.sh-keys { list-style: none; padding: 0; margin: 0.3rem 0; display: grid; gap: 0.25rem; font-size: 0.85rem; color: #d9c49e; }
+.sh-row { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+.sh-btn { font: inherit; font-weight: 700; background: #f0c24b; color: #2a1a10; border: 2px solid #5a3a22; border-radius: 4px; padding: 0.7rem 1.3rem; cursor: pointer; box-shadow: 0 0 18px rgba(240, 194, 75, 0.35); }
+.sh-btn.ghost { background: transparent; color: #f0c24b; border-color: #c9a066; box-shadow: none; }
+.sh-fine { font-size: 0.78rem; color: #a8916a; }
+.sh-play { overflow: hidden; background: #0d0806; touch-action: none; user-select: none; }
+.sh-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.sh-hud { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; flex-wrap: wrap; gap: 0.4rem; z-index: 5; pointer-events: none; }
+.sh-pill { background: rgba(26, 16, 10, 0.78); border: 1px solid rgba(201, 160, 102, 0.6); border-radius: 999px; padding: 0.3rem 0.75rem; font-size: 0.85rem; font-weight: 600; }
+.sh-pill.on { background: rgba(240, 194, 75, 0.9); color: #2a1a10; }
+.sh-pill.btn { pointer-events: auto; cursor: pointer; font: inherit; font-size: 0.85rem; color: inherit; margin-left: auto; }
+.sh-cross { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: rgba(255, 230, 180, 0.8); z-index: 4; pointer-events: none; }
+.sh-focus { position: absolute; left: 50%; top: calc(50% + 28px); transform: translateX(-50%); background: rgba(240, 194, 75, 0.92); color: #2a1a10; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 4px; z-index: 5; pointer-events: none; white-space: nowrap; }
+.sh-msg { position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%); max-width: min(640px, calc(100vw - 24px)); background: rgba(26, 16, 10, 0.85); border: 1px solid rgba(201, 160, 102, 0.6); border-radius: 6px; padding: 0.6rem 1rem; text-align: center; z-index: 5; pointer-events: none; }
+.sh-hint { position: absolute; left: 50%; top: 58%; transform: translateX(-50%); color: #e2c194; font-size: 0.85rem; z-index: 4; pointer-events: none; text-shadow: 0 1px 4px #000; }
+.sh-band-legend { position: absolute; left: 10px; bottom: 10px; font-size: 0.78rem; color: #d9c49e; background: rgba(26, 16, 10, 0.6); padding: 0.25rem 0.6rem; border-radius: 4px; z-index: 5; pointer-events: none; }
+.sh-overlay { position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; background: rgba(10, 6, 4, 0.55); padding: 1rem; }
+.sh-card.notes { text-align: left; max-height: 85vh; overflow: auto; }
+.sh-card.notes h2 { color: #f0c24b; }
+.sh-card.notes h3 { margin: 0.4rem 0 0.15rem; color: #e2c194; font-size: 1rem; }
+.sh-card.notes p { font-size: 0.92rem; color: #d9c49e; }
+.sh-card.notes .sh-btn { justify-self: start; }
+.sh-tbtns { position: absolute; right: 14px; bottom: 90px; display: grid; gap: 10px; z-index: 6; }
+.sh-tbtns button { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #5a3a22; background: rgba(240, 194, 75, 0.88); color: #2a1a10; font: inherit; font-weight: 800; }

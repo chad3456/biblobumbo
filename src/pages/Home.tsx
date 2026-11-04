@@ -14,6 +14,25 @@ export default function Home() {
       </section>
 
       <div className="game-cards">
+        <article className="game-card shilpa-card">
+          <div className="art shilpa-art" aria-hidden>
+            <div className="sh-band b0" /><div className="sh-band b1" /><div className="sh-band b2" />
+            <div className="sh-beam" />
+            <span className="sh-dancer">💃</span>
+            <span className="badge new">NEW</span>
+          </div>
+          <div className="card-body">
+            <h2>Shilpa: The Living Frieze</h2>
+            <p>Play as <b>ancient temple wall art</b>. A carved dancer wakes wherever light touches the wall: carry diyas through a Hoysala-style mandapa, then step into the frieze and run along the elephant, horse and Ramayana bands.</p>
+            <ul className="facts">
+              <li>🛕 Halebidu, Hampi & Kerala murals</li>
+              <li>🪔 light-and-shadow puzzles</li>
+              <li>🪷 5 lotuses</li>
+            </ul>
+            <Link to="/shilpa" className="btn primary big">Enter the temple 🛕</Link>
+          </div>
+        </article>
+
         <article className="game-card diwali-card">
           <div className="art diwali-art" aria-hidden>
             <div className="sky-glow" />
