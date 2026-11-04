@@ -4,6 +4,24 @@ Celebrate India's festivals in a LEGO-style 3D world. The home page has a card f
 
 - **🪔 Diwali in Ayodhya** (`/#/diwali`): light diyas with wishes and promises on the Saryu ghats.
 - **💃 Garba Night** (`/#/studio`, `/#/garba`): build a garba figurine and dance around Maa Ambe.
+- **👊 Kantin Clash** (`/#/brawl`): a pixel-art isometric school brawler set in the canteen.
+
+## 👊 Kantin Clash
+- **Look:** an isometric canteen (food stalls, a kiosk with a rolling shutter, long tables and benches) rendered at low resolution and scaled up with hard pixels, in warm afternoon light.
+- **Four fighting styles:**
+  - **Brawler:** jab, cross, hook; uppercut; shoulder throw.
+  - **Kicker:** long-reach kicks; flying kick.
+  - **Grappler:** high HP; armoured charge; suplex that bowls over the crowd.
+  - **Muay Thai:** 4-hit elbow and knee combo; teep push.
+- **Combat:** buffered combos, heavy attacks, grabs and throws, dodge-rolls with invulnerability, knockdowns, hit-stop, screen shake and soft aim assist. Hits show damage numbers, impact stars and dust.
+- **Rivals:** regular rivals, rushers, armoured bruisers, eraser throwers, and a chair-swinging Senior Gang Leader boss. They take turns attacking so you aren't swarmed unfairly.
+- **12 waves** with objectives: CLEAR, PROTECT (keep your cowering classmates safe), SURVIVE (hold out until the bell), and a final boss wave.
+- **1–2 players** on one keyboard, with gamepads, or with an on-screen joystick on phones. A downed partner can be revived by standing next to them.
+- **Cartoon violence only:** no blood. KO'd fighters see stars and run home.
+- **Controls:**
+  - P1: WASD, J punch, K heavy, L grab/special, Space dodge.
+  - P2: arrows, `,` punch, `.` heavy, `/` grab, Right Shift dodge (or numpad 1/2/3/0).
+  - Esc pauses.
 
 ## 🪔 Diwali in Ayodhya
 - **Deepotsav on the Saryu.** A LEGO-brick ghat descends to the river, lined with about 1,800 diyas.
@@ -45,7 +63,7 @@ Celebrate India's festivals in a LEGO-style 3D world. The home page has a card f
 ```bash
 npm install
 npm run dev     # http://localhost:5173
-npm test        # step/music sync, formations, diya links, stores
+npm test        # brawl engine, step/music sync, formations, diya links, stores
 npm run build   # static site in dist/
 ```
 

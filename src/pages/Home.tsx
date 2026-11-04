@@ -36,6 +36,26 @@ export default function Home() {
           </div>
         </article>
 
+        <article className="game-card brawl-card">
+          <div className="art brawl-art" aria-hidden>
+            <div className="brawl-floor" />
+            <div className="brawl-stall" />
+            <span className="brawler b1" /><span className="brawler b2" /><span className="brawler b3" />
+            <span className="pow">POW!</span>
+            <span className="badge new">NEW</span>
+          </div>
+          <div className="card-body">
+            <h2>Kantin Clash</h2>
+            <p>A pixel-art <b>school brawl</b> in the canteen. Pick a Brawler, Kicker, Grappler or Muay Thai fighter, chain combos, protect your classmates and survive 12 waves, solo or with a friend.</p>
+            <ul className="facts">
+              <li>👊 4 fighting styles</li>
+              <li>🎮 1–2 players · gamepad & touch</li>
+              <li>🏫 12 waves + boss</li>
+            </ul>
+            <Link to="/brawl" className="btn primary big">Start brawl 👊</Link>
+          </div>
+        </article>
+
         <article className="game-card garba-card">
           <div className="art garba-art" aria-hidden>
             <div className="garba-ring" />
