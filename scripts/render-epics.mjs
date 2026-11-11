@@ -26,7 +26,7 @@ for (const [epic, count] of Object.entries(epics)) {
     const url = await page.evaluate(([e, n]) => {
       const c = document.getElementById('c')
       Epic.render(Epic.scenes[e][n], c)
-      return c.toDataURL('image/jpeg', 0.88)
+      return c.toDataURL('image/jpeg', 0.82)
     }, [epic, i])
     const name = String(i + 1).padStart(2, '0') + '.jpg'
     writeFileSync(join(root, 'img', epic, name), Buffer.from(url.split(',')[1], 'base64'))
