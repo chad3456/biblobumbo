@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Itihasa: Painted Epics</title>
+<style>
+  :root { --bg: #17121f; --ink: #f4ead8; --dim: #b9a9b8; --gold: #f0c66a; --line: #3a2f48; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; }
+  header { padding: 56px 24px 20px; text-align: center; }
+  h1 { font-size: clamp(30px, 6vw, 60px); margin: 0; letter-spacing: 0.04em; font-weight: 400; }
+  header p { color: var(--dim); max-width: 640px; margin: 14px auto 0; line-height: 1.6; }
+  .tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 18px 16px; position: sticky; top: 0; background: linear-gradient(var(--bg) 70%, transparent); z-index: 5; }
+  button { font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px; cursor: pointer; }
+  button:hover, button.on { border-color: var(--gold); color: var(--gold); }
+  button.solid { background: var(--gold); color: #2a1c22; border-color: var(--gold); }
+  main { max-width: 1500px; margin: 0 auto; padding: 8px 16px 80px; display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
+  figure { margin: 0; cursor: pointer; border-radius: 6px; overflow: hidden; background: #211a2c; border: 1px solid var(--line); }
+  figure img { display: block; width: 100%; aspect-ratio: 2000 / 860; object-fit: cover; transition: transform 0.6s; background: #2a2236; }
+  figure:hover img { transform: scale(1.04); }
+  figcaption { padding: 12px 14px 14px; }
+  figcaption b { font-weight: 400; font-size: 18px; }
+  figcaption span { display: block; color: var(--dim); font-size: 13px; margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .empty { grid-column: 1 / -1; text-align: center; color: var(--dim); padding: 60px 0; }
+  #show { position: fixed; inset: 0; background: #0b0810; display: none; z-index: 20; overflow: hidden; }
+  #show.on { display: block; }
+  #stage { position: absolute; inset: 0; display: grid; place-items: center; }
+  #stage img, #stage canvas { width: 100vw; height: 100vh; object-fit: contain; animation: drift 14s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: scale(1.02) translateX(-0.8%); } to { transform: scale(1.12) translateX(0.8%); } }
+  @media (prefers-reduced-motion: reduce) { #stage img, #stage canvas { animation: none; } }
+  #cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 70px 6vw 26px; background: linear-gradient(transparent, rgba(8, 5, 12, 0.92)); }
+  #cap small { color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; }
+  #cap h2 { margin: 6px 0 8px; font-weight: 400; font-size: clamp(22px, 3.4vw, 40px); }
+  #cap p { margin: 0; max-width: 820px; color: #e2d6d0; line-height: 1.6; font-size: clamp(14px, 1.5vw, 18px); }
+  #bar { position: absolute; top: 14px; right: 14px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  #bar button { background: rgba(10, 6, 14, 0.6); padding: 8px 14px; font-size: 14px; }
+  .nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(10, 6, 14, 0.5); width: 48px; height: 48px; padding: 0; font-size: 20px; }
+  #prev { left: 12px; } #next { right: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Itihasa</h1>
+  <p>The Ramayana and the Mahabharata as fifty wide paintings. Every picture is drawn by code: a plain JavaScript engine composes each scene, then repaints it stroke by stroke.</p>
+</header>
+<div class="tabs" id="tabs"></div>
+<main id="grid"></main>
+
+<div id="show" role="dialog" aria-modal="true" aria-label="Painting viewer">
+  <div id="stage"></div>
+  <div id="cap"><small id="ck"></small><h2 id="ct"></h2><p id="cx"></p></div>
+  <div id="bar">
+    <button id="play">Pause</button>
+    <button id="repaint" title="Paint this scene again, live, with a new random seed">Repaint live</button>
+    <button id="close" aria-label="Close">Close</button>
+  </div>
+  <button class="nav" id="prev" aria-label="Previous">&#8592;</button>
+  <button class="nav" id="next" aria-label="Next">&#8594;</button>
+</div>
+
+<script src="engine.js"></script>
+<script src="ramayana.js"></script>
+<script src="mahabharata.js"></script>
+<script>
+(function () {
+  var names = { ramayana: 'Ramayana', mahabharata: 'Mahabharata' };
+  var epic = location.hash.replace('#', '') in Epic.scenes ? location.hash.replace('#', '') : 'ramayana';
+  var idx = 0, timer = null, playing = true, shift = 0;
+  var $ = function (id) { return document.getElementById(id); };
+  var pad = function (n) { return (n < 9 ? '0' : '') + (n + 1); };
+  var src = function (i) { return 'img/' + epic + '/' + pad(i) + '.jpg'; };
+
+  function tabs() {
+    $('tabs').innerHTML = '';
+    Object.keys(names).forEach(function (k) {
+      var b = document.createElement('button'); b.textContent = names[k]; b.className = k === epic ? 'on' : '';
+      b.onclick = function () { epic = k; location.hash = k; tabs(); grid(); }; $('tabs').appendChild(b);
+    });
+    var s = document.createElement('button'); s.textContent = 'Play as a show'; s.className = 'solid';
+    s.onclick = function () { open(0, true); }; $('tabs').appendChild(s);
+  }
+  function grid() {
+    var g = $('grid'), list = Epic.scenes[epic] || []; g.innerHTML = '';
+    if (!list.length) { g.innerHTML = '<p class="empty">These paintings are not ready yet.</p>'; return; }
+    list.forEach(function (sc, i) {
+      var f = document.createElement('figure'); f.tabIndex = 0;
+      f.innerHTML = '<img loading="lazy" alt="" src="' + src(i) + '"><figcaption><b></b><span></span></figcaption>';
+      f.querySelector('img').alt = sc.title; f.querySelector('b').textContent = pad(i) + '. ' + sc.title; f.querySelector('span').textContent = sc.kanda;
+      f.onclick = function () { open(i, false); }; f.onkeydown = function (e) { if (e.key === 'Enter') open(i, false); };
+      g.appendChild(f);
+    });
+  }
+  function draw(live) {
+    var sc = Epic.scenes[epic][idx], st = $('stage'); st.innerHTML = '';
+    if (live) { var c = document.createElement('canvas'); st.appendChild(c); Epic.render(sc, c, shift); }
+    else { var im = new Image(); im.src = src(idx); im.alt = sc.title; st.appendChild(im); }
+    $('ck').textContent = names[epic] + ' · ' + sc.kanda + ' · ' + pad(idx) + ' of ' + Epic.scenes[epic].length;
+    $('ct').textContent = sc.title; $('cx').textContent = sc.text;
+  }
+  function go(d) { var n = Epic.scenes[epic].length; idx = (idx + d + n) % n; shift = 0; draw(false); arm(); }
+  function arm() { clearTimeout(timer); if (playing) timer = setTimeout(function () { go(1); }, 9000); }
+  function open(i, play) { idx = i; playing = play; shift = 0; $('play').textContent = playing ? 'Pause' : 'Play'; $('show').classList.add('on'); draw(false); arm(); }
+  function close() { clearTimeout(timer); $('show').classList.remove('on'); }
+  $('close').onclick = close; $('prev').onclick = function () { go(-1); }; $('next').onclick = function () { go(1); };
+  $('play').onclick = function () { playing = !playing; this.textContent = playing ? 'Pause' : 'Play'; arm(); };
+  $('repaint').onclick = function () { shift += 1 + Math.floor(Math.random() * 900); clearTimeout(timer); playing = false; $('play').textContent = 'Play'; draw(true); };
+  document.addEventListener('keydown', function (e) {
+    if (!$('show').classList.contains('on')) return;
+    if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+  });
+  tabs(); grid();
+})();
+</script>
+</body>
+</html>
