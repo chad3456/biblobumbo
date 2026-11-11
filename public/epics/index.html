@@ -16,6 +16,7 @@
   button:hover, button.on { border-color: var(--gold); color: var(--gold); }
   button.solid { background: var(--gold); color: #2a1c22; border-color: var(--gold); }
   main { max-width: 1500px; margin: 0 auto; padding: 8px 16px 80px; display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
+  main.tall { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
   figure { margin: 0; cursor: pointer; border-radius: 6px; overflow: hidden; background: #211a2c; border: 1px solid var(--line); }
   figure img { display: block; width: 100%; aspect-ratio: 2000 / 860; object-fit: cover; transition: transform 0.6s; background: #2a2236; }
   figure:hover img { transform: scale(1.04); }
@@ -42,7 +43,8 @@
 <body>
 <header>
   <h1>Itihasa</h1>
-  <p>The Ramayana and the Mahabharata as fifty wide paintings. Every picture is drawn by code: a plain JavaScript engine composes each scene, then repaints it stroke by stroke.</p>
+  <p>The Ramayana and the Mahabharata in 71 paintings: fifty wide scenes, sixteen portraits of Rama and Krishna, and five further Krishna landscapes. Every picture is drawn by code: a plain JavaScript engine composes each scene, then repaints it stroke by stroke.</p>
+  <p><a href="podcast.html" style="color:#f0c66a">Listen to Samvada, the four-part conversation on Rama and Krishna</a></p>
 </header>
 <div class="tabs" id="tabs"></div>
 <main id="grid"></main>
@@ -62,9 +64,10 @@
 <script src="engine.js"></script>
 <script src="ramayana.js"></script>
 <script src="mahabharata.js"></script>
+<script src="portraits.js"></script>
 <script>
 (function () {
-  var names = { ramayana: 'Ramayana', mahabharata: 'Mahabharata' };
+  var names = { ramayana: 'Ramayana', mahabharata: 'Mahabharata', rama: 'Rama: portraits', krishna: 'Krishna: portraits', krishnaland: 'Krishna: landscapes' };
   var epic = location.hash.replace('#', '') in Epic.scenes ? location.hash.replace('#', '') : 'ramayana';
   var idx = 0, timer = null, playing = true, shift = 0;
   var $ = function (id) { return document.getElementById(id); };
@@ -81,11 +84,12 @@
     s.onclick = function () { open(0, true); }; $('tabs').appendChild(s);
   }
   function grid() {
-    var g = $('grid'), list = Epic.scenes[epic] || []; g.innerHTML = '';
+    var g = $('grid'), list = Epic.scenes[epic] || []; g.innerHTML = ''; g.className = list[0] && list[0].h > list[0].w ? 'tall' : '';
     if (!list.length) { g.innerHTML = '<p class="empty">These paintings are not ready yet.</p>'; return; }
     list.forEach(function (sc, i) {
       var f = document.createElement('figure'); f.tabIndex = 0;
       f.innerHTML = '<img loading="lazy" alt="" src="' + src(i) + '"><figcaption><b></b><span></span></figcaption>';
+      if (sc.h > sc.w) f.querySelector('img').style.aspectRatio = sc.w + ' / ' + sc.h;
       f.querySelector('img').alt = sc.title; f.querySelector('b').textContent = pad(i) + '. ' + sc.title; f.querySelector('span').textContent = sc.kanda;
       f.onclick = function () { open(i, false); }; f.onkeydown = function (e) { if (e.key === 'Enter') open(i, false); };
       g.appendChild(f);

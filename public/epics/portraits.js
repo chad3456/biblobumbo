@@ -190,7 +190,7 @@
       F(p, 300, 1720, 260, ARJUNA, KNEEL, PRAY, { f: 1, head: -40 }); base(p, '#17121f');
     } });
   P(K, { title: 'The Wheel Against Bhishma', kanda: 'Bhishma Parva', seed: 406, light: 1,
-    text: 'Seeing Arjuna fight his grandsire half-heartedly, Krishna leaps down and runs at Bhishma with a chariot wheel, breaking his own vow. Bhishma drops his bow and welcomes him with folded hands.',
+    text: 'Seeing Arjuna fight his grandsire half-heartedly, Krishna leaps down and runs at Bhishma, breaking his own vow. The epic gives him his discus; later tradition, followed here, a chariot wheel. Bhishma drops his bow and welcomes him with folded hands.',
     draw(p) {
       p.sky(['#5a6ab4', '#a89cd4', '#f0bca8', '#fbdca0']); p.sun(250, 800, 110, '#fff2c4', '#ffc088'); p.rays(250, 800, 30, 1700, '#ffe4b4', 0.18);
       p.clouds({ n: 8, y0: 60, y1: 640, size: 190, col: '#eccfd2', shadow: '#8f86c0', light: '#fff0d4' });

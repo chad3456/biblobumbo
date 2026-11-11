@@ -14,6 +14,23 @@ export default function Home() {
       </section>
 
       <div className="game-cards">
+        <article className="game-card">
+          <div className="art" aria-hidden style={{ backgroundImage: 'url(./epics/img/ramayana/15.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <span className="badge new">NEW</span>
+          </div>
+          <div className="card-body">
+            <h2>Itihasa: Painted Epics</h2>
+            <p>The <b>Ramayana and Mahabharata in 71 paintings</b>, each drawn by a plain JavaScript paint engine, with <b>Samvada</b>, a four-part narrated conversation on Rama, Krishna and dharma.</p>
+            <ul className="facts">
+              <li>🖼️ 55 landscapes, 16 portraits</li>
+              <li>🎙️ 4 episodes with sources</li>
+              <li>🖌️ repaint any scene live</li>
+            </ul>
+            <a href="./epics/index.html" className="btn primary big">Open the gallery 🖼️</a>{' '}
+            <a href="./epics/podcast.html" className="btn big">Listen 🎙️</a>
+          </div>
+        </article>
+
         <article className="game-card shilpa-card">
           <div className="art shilpa-art" aria-hidden>
             <div className="sh-band b0" /><div className="sh-band b1" /><div className="sh-band b2" />

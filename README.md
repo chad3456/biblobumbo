@@ -6,6 +6,14 @@ Celebrate India's festivals in a LEGO-style 3D world. The home page has a card f
 - **💃 Garba Night** (`/#/studio`, `/#/garba`): build a garba figurine and dance around Maa Ambe.
 - **👊 Kantin Clash** (`/#/brawl`): a pixel-art isometric school brawler set in the canteen.
 - **🛕 Shilpa: The Living Frieze** (`/#/shilpa`): play as ancient Hindu temple wall art.
+- **🖼️ Itihasa and Samvada** (`/epics/`): the Ramayana and Mahabharata as code-painted pictures, with a narrated conversation.
+
+## 🖼️ Itihasa: Painted Epics and Samvada
+Static pages under `public/epics/` (open `/epics/index.html` and `/epics/podcast.html`), written in plain JavaScript with no libraries.
+- **Paint engine** (`engine.js`): each scene is composed from shapes (skies, clouds, mountains, temples, trees, posable figures, animals, chariots, fire), then repainted with layered brush strokes that follow the picture's edges. Any scene can be repainted live in the browser with a new seed.
+- **71 paintings:** 25 Ramayana and 25 Mahabharata landscapes (2000×860), 8 Rama and 8 Krishna portraits (1200×1800), and 5 more Krishna landscapes. Scene code is in `ramayana.js`, `mahabharata.js` and `portraits.js`.
+- **Samvada** (`podcast.html`, `podcast.js`): four narrated two-voice conversations (the ideal of Rama; the rule of Rama and of Krishna; dharma and adharma; what Krishna teaches and bears), with sources from Valmiki's Ramayana, the Mahabharata and the Gita shown per turn. Narration uses the browser's speech voices; the tanpura drone is synthesised.
+- **Re-render the JPEGs:** `PLAYWRIGHT_PATH=$(npm root -g)/playwright node scripts/render-epics.mjs all`
 
 ## 🛕 Shilpa: The Living Frieze
 A first-person walk through a sandstone mandapa where a **carved dancer comes alive wherever light touches the wall**.
