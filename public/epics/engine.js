@@ -3,7 +3,7 @@
    with layered brush strokes that follow the edges of the picture. */
 (function (root) {
   'use strict';
-  const W = 2000, H = 860, TAU = Math.PI * 2, D = Math.PI / 180;
+  let W = 2000, H = 860; const TAU = Math.PI * 2, D = Math.PI / 180;
 
   function mulberry(seed) {
     let s = (seed >>> 0) || 1;
@@ -632,10 +632,11 @@
     }
     oc.setTransform(1, 0, 0, 1, 0, 0); oc.globalAlpha = o.crisp == null ? 0.16 : o.crisp; oc.drawImage(ref, 0, 0); oc.globalAlpha = 1;
     for (let i = 0; i < 120000; i++) { oc.fillStyle = r() < 0.5 ? 'rgba(255,250,235,0.06)' : 'rgba(30,18,44,0.06)'; oc.fillRect(r() * w, r() * h, 1 + r() * 2.5, 1 + r() * 2.5); }
-    const g = oc.createRadialGradient(w / 2, h / 2, h * 0.5, w / 2, h / 2, w * 0.72); g.addColorStop(0, 'rgba(30,16,40,0)'); g.addColorStop(1, 'rgba(30,16,40,0.3)'); oc.fillStyle = g; oc.fillRect(0, 0, w, h);
+    const g = oc.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.5, w / 2, h / 2, Math.hypot(w, h) * 0.62); g.addColorStop(0, 'rgba(30,16,40,0)'); g.addColorStop(1, 'rgba(30,16,40,0.3)'); oc.fillStyle = g; oc.fillRect(0, 0, w, h);
   }
 
   function render(scene, out, seedShift) {
+    W = scene.w || 2000; H = scene.h || 860;
     const ref = document.createElement('canvas'); ref.width = W; ref.height = H; out.width = W; out.height = H;
     const ctx = ref.getContext('2d'), seed = (scene.seed || 7) + (seedShift || 0);
     scene.draw(new Painter(ctx, seed, scene.light || -1));

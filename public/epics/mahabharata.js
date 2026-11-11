@@ -397,9 +397,9 @@
       scr(p, () => { p.glow(1000, 300, 980, '#ffe6a0', 0.95); p.rays(1000, 300, 60, 1600, '#fff3c0', 0.3); for (let i = 0; i < 9; i++) p.glow(1000 + Math.cos(i * 0.7) * 620, 300 + Math.sin(i * 0.7) * 260, 90, ['#ffd0a0', '#c0d0ff', '#ffe0f0'][i % 3], 0.8); });
       for (const r of [330, 520, 720]) { p.c.strokeStyle = 'rgba(255,240,190,0.5)'; p.c.lineWidth = 5; p.c.beginPath(); p.c.ellipse(1000, 330, r, r * 0.5, 0, 0, 6.3); p.c.stroke(); }
       const arms = []; for (let i = 0; i < 12; i++) arms.push([40 + i * 13, 70 + i * 11]);
-      F(p, 1000, 800, 880, KRISHNA, { f: 1, skin: '#5a7ad0', heads: 4, arms: arms, aN: [150, 176], aF: [110, 140], halo: '#fff6c0', haloR: 10, broad: 1.35, lN: [10, 2], lF: [-10, -3], prop: [{ type: 'chakra', hand: 'N' }, { type: 'mace', hand: 'F', ang: 110, len: 0.24 }] });
-      F(p, 1000, 800, 880, KRISHNA, { f: -1, skin: '#5a7ad0', arms: arms, aN: [150, 176], aF: [110, 140], broad: 1.35, lN: [10, 2], lF: [-10, -3], crown: 'none', sash: false, prop: [{ type: 'trident', hand: 'N', ang: 176, len: 0.3 }] });
-      F(p, 1000, 800, 880, KRISHNA, { f: 1, skin: '#5a7ad0', heads: 4, aN: [30, 80], aF: [20, 70], broad: 1.35, lN: [10, 2], lF: [-10, -3], halo: '#fff6c0', haloR: 6 });
+      F(p, 1000, 800, 650, KRISHNA, { f: 1, skin: '#5a7ad0', heads: 4, arms: arms, aN: [150, 176], aF: [110, 140], halo: '#fff6c0', haloR: 10, broad: 1.35, lN: [10, 2], lF: [-10, -3], prop: [{ type: 'chakra', hand: 'N' }, { type: 'mace', hand: 'F', ang: 110, len: 0.24 }] });
+      F(p, 1000, 800, 650, KRISHNA, { f: -1, skin: '#5a7ad0', arms: arms, aN: [150, 176], aF: [110, 140], broad: 1.35, lN: [10, 2], lF: [-10, -3], crown: 'none', sash: false, prop: [{ type: 'trident', hand: 'N', ang: 176, len: 0.3 }] });
+      F(p, 1000, 800, 650, KRISHNA, { f: 1, skin: '#5a7ad0', heads: 4, aN: [30, 80], aF: [20, 70], broad: 1.35, lN: [10, 2], lF: [-10, -3], halo: '#fff6c0', haloR: 6 });
       p.fade('#f6c890', 0.16, 0, 760); scr(p, () => p.glow(1000, 150, 300, '#ffffff', 0.5));
       p.ridge({ y: 700, amp: 30, col: '#7a5a80', col2: '#3a2a4a', seed: 6 });
       p.crowd({ x0: 0, x1: 760, y: 740, jit: 26, h: 34, n: 160, col: '#c9a060', col2: '#8a6a50', spears: 0.6, banners: 0.05, bannerCol: '#f0c85a' }); p.crowd({ x0: 1240, x1: W, y: 740, jit: 26, h: 34, n: 160, col: '#4a3a5a', col2: '#7a4a50', spears: 0.6, banners: 0.05, bannerCol: '#b8323a', dir: -1 });

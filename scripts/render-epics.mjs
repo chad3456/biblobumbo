@@ -13,7 +13,7 @@ const browser = await chromium.launch()
 const page = await browser.newPage()
 page.on('pageerror', (e) => console.error('page error:', e.message))
 await page.setContent('<canvas id="c"></canvas>')
-for (const f of ['engine.js', 'ramayana.js', 'mahabharata.js']) {
+for (const f of ['engine.js', 'ramayana.js', 'mahabharata.js', 'portraits.js']) {
   try { await page.addScriptTag({ path: join(root, f) }) } catch (e) { console.error('skip', f, e.message) }
 }
 const epics = await page.evaluate(() => Object.fromEntries(Object.entries(Epic.scenes).map(([k, v]) => [k, v.length])))
